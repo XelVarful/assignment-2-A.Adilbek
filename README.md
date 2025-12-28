@@ -23,7 +23,6 @@ The application fetches real-time weather data using the OpenWeather API and add
 - Responsive and user-friendly frontend interface
 - Secure usage of API keys via environment variables
 
----
 
 ## APIs Used
 
