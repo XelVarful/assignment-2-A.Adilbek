@@ -44,8 +44,6 @@ Used to retrieve additional country-related information:
 
 All API requests are performed strictly on the **server side**.
 
-## Project Structure
-
 assignment-2-A.Adilbek/
 │
 ├── server.js
