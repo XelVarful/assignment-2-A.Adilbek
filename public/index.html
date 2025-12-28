@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Weather Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="layout">
+  <h1 class="title">Weather Dashboard</h1>
+
+  <div class="search-box">
+    <input id="cityInput" value="Astana" placeholder="Enter city">
+    <button id="btn">Check Weather</button>
+  </div>
+
+  <div class="result" id="result">
+    <p class="hint">Enter city and click the button</p>
+  </div>
+</div>
+
+<script>
+  const btn = document.getElementById("btn");
+  const result = document.getElementById("result");
+
+  btn.addEventListener("click", async () => {
+    const city = document.getElementById("cityInput").value.trim();
+
+    if (!city) {
+      result.innerHTML = "<p class='hint'>City is required</p>";
+      return;
+    }
+
+    result.innerHTML = "<p class='hint'>Loading...</p>";
+
+    try {
+      const res = await fetch(`/api/weather?city=${city}`);
+      const data = await res.json();
+
+      if (data.error) {
+        result.innerHTML = `<p class='hint'>${data.error}</p>`;
+        return;
+      }
+
+      result.innerHTML = `
+        <div class="data-row"><span>Temperature:</span> ${data.temperature ?? "N/A"} °C</div>
+        <div class="data-row"><span>Feels like:</span> ${data.feels_like ?? "N/A"} °C</div>
+        <div class="data-row"><span>Description:</span> ${data.description}</div>
+        <div class="data-row"><span>Wind speed:</span> ${data.wind_speed ?? "N/A"} m/s</div>
+        <div class="data-row"><span>Country:</span> ${data.country_name}</div>
+        <div class="data-row"><span>Capital:</span> ${data.capital}</div>
+        <div class="data-row"><span>Currency:</span> ${data.currency}</div>
+        <div class="data-row"><span>Rain (3h):</span> ${data.rain_last_3h} mm</div>
+      `;
+    } catch {
+      result.innerHTML = "<p class='hint'>Server error</p>";
+    }
+  });
+</script>
+
+</body>
+</html>
